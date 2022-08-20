@@ -8,19 +8,13 @@ import { galleryItems } from './gallery-items.js';
 const galleryBox = document.querySelector('.gallery');
 const galleryMarkup = createPhotoGalleryMarkup(galleryItems);
 
-galleryBox.insertAdjacentHTML('beforeend', galleryMarkup)
-
-galleryBox.addEventListener('click', onGalleryBoxKlick);
-
-console.log(createPhotoGalleryMarkup(galleryItems));
-
 function createPhotoGalleryMarkup(galleryItems) {
 
     return galleryItems.map(({preview, original, description}) => {
         return `
     <div class="gallery__item">
   <a class="gallery__link" 
-    href="large-image.jpg">
+    href="${original}">
     <img
       class="gallery__image"
       src="${preview}"
@@ -31,14 +25,30 @@ function createPhotoGalleryMarkup(galleryItems) {
 </div> 
 `;
     }).join('');
+};
+galleryBox.insertAdjacentHTML('beforeend', galleryMarkup);
+
+
+
+galleryBox.addEventListener('click', onGalleryBoxClick);
+
+// console.log(createPhotoGalleryMarkup(galleryItems));
+
+function onGalleryBoxClick(event) {
+  event.preventDefault();
+  if (!event.target.classList.contains('gallery__image')) {
+    return;
+  };
+  // console.log(event.target);
+
+  const instance = basicLightbox.create(
+    `
+    <img src="${event.target.dataset.source}" width="800" height="600"/>
+`);
+instance.show()
 
 };
-//  console.log(galleryItems);
+
+
 //      2.      Реалізація делегування на div.gallery і отримання url великого зображення.
-
-function onGalleryBoxKlick(event) {
-console.log(event.target);
-}
-
-
-
+//      3.       Підключення скрипту і стилів бібліотеки модального вікна basicLightbox. Використовуй CDN сервіс jsdelivr і додай у проект посилання на мініфіковані (.min) файли бібліотеки.
