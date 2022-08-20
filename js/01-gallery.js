@@ -45,10 +45,21 @@ function onGalleryBoxClick(event) {
     `
     <img src="${event.target.dataset.source}" width="800" height="600"/>
 `);
-instance.show()
+  instance.show()
 
-};
 
+  galleryBox.addEventListener('keydown', onCloseModalEscPress);
+  
+  function onCloseModalEscPress(event) {
+console.log(event.code)
+    if (event.code === "Escape") {
+      instance.close();
+      galleryBox.removeEventListener('keydown', onCloseModalEscPress);
+    }
+  
+  
+  };
+}
 
 //      2.      Реалізація делегування на div.gallery і отримання url великого зображення.
 //      3.       Підключення скрипту і стилів бібліотеки модального вікна basicLightbox. Використовуй CDN сервіс jsdelivr і додай у проект посилання на мініфіковані (.min) файли бібліотеки.
